@@ -1,0 +1,12 @@
+{
+    "DEBUG" : 0,
+    "HD" : 1,
+    "FULL_SCREEN" : 0,
+    "DISPLAY" : 0,
+    "GENERATIONS" : 20,
+    "SAVE" : 0,
+    "CELL_SIZE" : 20,
+    "SOLVE" : 0,
+    "SCREEN_WIDTH" : 600,
+    "SCREEN_HEIGHT" : 600
+}
