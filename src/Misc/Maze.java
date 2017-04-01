@@ -139,7 +139,6 @@ public class Maze {
     private Vector2i chooseWay(Vector2i position) {
         int i = position.x;
         int j = position.y;
-        ArrayList<Vector2i> choices = new ArrayList<>();
         Vector2i toAdd[] = {
                 new Vector2i(i - 1, j),
                 new Vector2i(i + 1, j),
@@ -153,12 +152,11 @@ public class Maze {
                     if (v.x == i + 1 && !maze[i][j].isRight()) continue;
                     if (v.y == j - 1 && !maze[i][j].isUp()) continue;
                     if (v.y == j + 1 && !maze[i][j].isDown()) continue;
-                    choices.add(v);
+                    return v;
                 }
             }
         }
-        if (choices.isEmpty()) return null;
-        else return choices.get(0);
+        return null;
     }
 
     private void solve() throws TextureCreationException, IOException {

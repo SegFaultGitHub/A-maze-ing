@@ -53,7 +53,9 @@ public class Cell {
         left = false;
         right = false;
         visited = false;
-        content = "0000".toCharArray();
+        for (int i = 0; i < 4; i++) {
+            content[i] = '0';
+        }
         color = Color.BLACK;
     }
 
