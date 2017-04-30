@@ -13,6 +13,7 @@ public class Config {
     public static float CELL_SIZE = 0;
     public static long SCREEN_WIDTH = 0;
     public static long SCREEN_HEIGHT = 0;
+    public static long FPS = 0;
     public static boolean SOLVE = false;
 
     public static void initialize() {
@@ -25,6 +26,7 @@ public class Config {
         SOLVE = (long) jsonObject.get("SOLVE") != 0;
         SAVE = (long) jsonObject.get("SAVE") != 0;
         GENERATIONS = (long) jsonObject.get("GENERATIONS");
+        FPS = (long) jsonObject.get("FPS");
         CELL_SIZE = ((Number)jsonObject.get("CELL_SIZE")).floatValue();
         SCREEN_WIDTH = (long) jsonObject.get("SCREEN_WIDTH");
         SCREEN_HEIGHT = (long) jsonObject.get("SCREEN_HEIGHT");

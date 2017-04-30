@@ -3,6 +3,7 @@ package Main;
 import Misc.Cell;
 import Misc.Maze;
 import Utils.Input;
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
@@ -54,6 +55,7 @@ class Handler {
                 frames.remove(0);
             }
             currentFPS = frames.size();
+            System.out.println(currentFPS);
             previousFPS.add(currentFPS);
             if (previousFPS.size() > 512) {
                 previousFPS.remove(0);
@@ -63,7 +65,8 @@ class Handler {
     }
 
     private static void updateInGame() throws Exception {
-        maze.continueGeneration();
+        if (Input.isKeyPressedOnce(Keyboard.Key.SPACE))
+            maze.continueGeneration();
     }
 
     static void draw(RenderWindow window, RenderWindow windowDebug) {

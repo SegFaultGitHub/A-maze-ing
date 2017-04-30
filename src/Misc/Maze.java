@@ -17,6 +17,8 @@ import java.util.Stack;
  * Created by SegFault on 29/03/2017.
  */
 public class Maze {
+    private int a = 0;
+
     private int seed;
 
     private int width, height;
@@ -89,13 +91,18 @@ public class Maze {
             if (Config.SOLVE) {
                 solve();
             }
-            generate();
+            System.out.println(Utils.endChronoStr());
+            if (Config.DISPLAY) {
+                generate();
+            }
             return true;
         }
         return false;
     }
 
     public void generate() {
+        Utils.startChrono();
+//        a = 0;
         seed = Math.abs(new Random().nextInt());
         Utils.setRandomSeed(seed);
         for (int i = 0; i < width; i++) {
@@ -106,8 +113,8 @@ public class Maze {
         maze[0][0].setUp(true);
         maze[width - 1][height - 1].setDown(true);
         path.clear();
-        int i = Utils.getRandomInt(width);
-        int j = Utils.getRandomInt(height);
+        int i = Utils.getRandomInt(width) * 0;
+        int j = Utils.getRandomInt(height) * 0;
         path.push(new Vector2i(i, j));
         maze[i][j].setVisited(true);
         int colorNumber = Utils.getRandomInt(2, 5);
@@ -133,7 +140,8 @@ public class Maze {
             }
         }
         if (choices.isEmpty()) return null;
-        else return choices.get(Utils.getRandomInt(choices.size()));
+//        else return choices.get(Utils.getRandomInt(choices.size()));
+        else return choices.get((a++) % choices.size());
     }
 
     private Vector2i chooseWay(Vector2i position) {

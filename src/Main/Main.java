@@ -10,8 +10,7 @@ import org.jsfml.window.WindowStyle;
 public class Main {
     private static RenderWindow window;
     private static RenderWindow windowDebug;
-    private static final String NAME = "A-maze-ing";
-    private static final int FPS = 60;
+    private static final String NAME = "A-maze-ing";;
     private static int screenWidth, screenHeight;
 
     private static boolean initialize() {
@@ -23,7 +22,7 @@ public class Main {
             if (Config.DEBUG) {
                 windowDebug = new RenderWindow();
                 windowDebug.create(new VideoMode(512, 256, 32), NAME + " - DEBUG", WindowStyle.RESIZE);
-                windowDebug.setFramerateLimit(FPS);
+                windowDebug.setFramerateLimit((int)Config.FPS);
             }
             window = new RenderWindow();
             if (Config.FULL_SCREEN) {
@@ -31,7 +30,7 @@ public class Main {
             } else {
                 window.create(new VideoMode(screenWidth, screenHeight, 32), NAME, WindowStyle.RESIZE);
             }
-            window.setFramerateLimit(FPS);
+            window.setFramerateLimit((int)Config.FPS);
             Input.initialize();
             Handler.initialize(window.getSize().x, window.getSize().y);
         }
@@ -56,10 +55,8 @@ public class Main {
             Maze maze = new Maze(screenWidth / (int) Config.CELL_SIZE, screenHeight / (int)Config.CELL_SIZE);
             for (int i = 0; i < Config.GENERATIONS; i++) {
                 maze.generate();
-                Utils.startChrono();
                 System.out.print("Generation #" + (i + 1) + ": ");
                 while (!maze.continueGeneration());
-                System.out.println(Utils.endChronoStr());
             }
         } else {
             while (window.isOpen()) {
