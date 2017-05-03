@@ -10,7 +10,7 @@ import org.jsfml.window.WindowStyle;
 public class Main {
     private static RenderWindow window;
     private static RenderWindow windowDebug;
-    private static final String NAME = "A-maze-ing";;
+    private static final String NAME = "A-maze-ing";
     private static int screenWidth, screenHeight;
 
     private static boolean initialize() {

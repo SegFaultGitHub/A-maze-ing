@@ -1,6 +1,5 @@
 package Misc;
 
-import Main.Config;
 import Textures.Textures;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderTarget;
@@ -16,8 +15,9 @@ public class Cell {
     private char[] content;
     private Color color;
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setColor(int r, int g, int b) {
+        this.color = null;
+        this.color = new Color(r, g, b);
     }
 
     public boolean isUp() {
@@ -86,11 +86,9 @@ public class Cell {
         color = Color.BLACK;
     }
 
-    public void draw(RenderTarget target, int x, int y) {
-        Sprite sprite = new Sprite();
-        sprite.setPosition(x, y);
+    public void draw(RenderTarget target, Sprite sprite, Vector2f pos) {
+        sprite.setPosition(pos);
         sprite.setColor(color);
-        sprite.setScale(new Vector2f(Config.CELL_SIZE / 20f, Config.CELL_SIZE / 20f));
         String contentStr = "";
         for (int i = 0; i < 4; i++) {
             contentStr += content[i];

@@ -17,8 +17,6 @@ import java.util.Stack;
  * Created by SegFault on 29/03/2017.
  */
 public class Maze {
-    private int a = 0;
-
     private int seed;
 
     private int width, height;
@@ -28,6 +26,8 @@ public class Maze {
     private ArrayList<Color> colors;
 
     private Vector2i current;
+    private Sprite sprite;
+    private Vector2f vect;
 
     public Maze(int width, int height) {
         this.width = width;
@@ -42,6 +42,9 @@ public class Maze {
 
         colors = new ArrayList<>();
         path = new Stack<>();
+        vect = new Vector2f(0, 0);
+        sprite = new Sprite();
+        sprite.setScale(new Vector2f(Config.CELL_SIZE / 20f, Config.CELL_SIZE / 20f));
 
         generate();
     }
@@ -58,7 +61,7 @@ public class Maze {
             int r = (int) ((float) (end.r - start.r) * ratio) + start.r;
             int g = (int) ((float) (end.g - start.g) * ratio) + start.g;
             int b = (int) ((float) (end.b - start.b) * ratio) + start.b;
-            maze[current.x][current.y].setColor(new Color(r, g, b));
+            maze[current.x][current.y].setColor(r, g, b);
             if (next == null) {
                 path.pop();
                 return continueGeneration();
@@ -86,7 +89,7 @@ public class Maze {
                 texture.clear(Color.BLACK);
                 draw(texture);
                 texture.display();
-                texture.getTexture().copyToImage().saveToFile(Paths.get("mazes/seed-" + seed + ".png", new String[0]));
+                texture.getTexture().copyToImage().saveToFile(Paths.get("mazes/seed-" + seed + ".png"));
             }
             if (Config.SOLVE) {
                 solve();
@@ -113,8 +116,8 @@ public class Maze {
         maze[0][0].setUp(true);
         maze[width - 1][height - 1].setDown(true);
         path.clear();
-        int i = Utils.getRandomInt(width) * 0;
-        int j = Utils.getRandomInt(height) * 0;
+        int i = Utils.getRandomInt(width);
+        int j = Utils.getRandomInt(height);
         path.push(new Vector2i(i, j));
         maze[i][j].setVisited(true);
         int colorNumber = Utils.getRandomInt(2, 5);
@@ -140,8 +143,7 @@ public class Maze {
             }
         }
         if (choices.isEmpty()) return null;
-//        else return choices.get(Utils.getRandomInt(choices.size()));
-        else return choices.get((a++) % choices.size());
+        else return choices.get(Utils.getRandomInt(choices.size()));
     }
 
     private Vector2i chooseWay(Vector2i position) {
@@ -192,13 +194,14 @@ public class Maze {
         path.pop();
         drawSolution(texture);
         texture.display();
-        texture.getTexture().copyToImage().saveToFile(Paths.get("mazes/seed-" + seed + "-solved.png", new String[0]));
+        texture.getTexture().copyToImage().saveToFile(Paths.get("mazes/seed-" + seed + "-solved.png"));
     }
 
     public void draw(RenderTarget target) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                maze[i][j].draw(target, i * (int) Config.CELL_SIZE, j * (int) Config.CELL_SIZE);
+                vect = new Vector2f(i * (int) Config.CELL_SIZE, j * (int) Config.CELL_SIZE);
+                maze[i][j].draw(target, sprite, vect);
             }
         }
     }
