@@ -45,6 +45,7 @@ public class Maze {
         vect = new Vector2f(0, 0);
         sprite = new Sprite();
         sprite.setScale(new Vector2f(Config.CELL_SIZE / 20f, Config.CELL_SIZE / 20f));
+        sprite.setColor(Color.WHITE);
 
         generate();
     }
@@ -69,17 +70,17 @@ public class Maze {
                 maze[next.x][next.y].setVisited(true);
                 path.push(next);
                 if (next.x == current.x - 1) {
-                    maze[current.x][current.y].setLeft(true);
-                    maze[next.x][next.y].setRight(true);
+                    maze[current.x][current.y].setLeft();
+                    maze[next.x][next.y].setRight();
                 } else if (next.x == current.x + 1) {
-                    maze[current.x][current.y].setRight(true);
-                    maze[next.x][next.y].setLeft(true);
+                    maze[current.x][current.y].setRight();
+                    maze[next.x][next.y].setLeft();
                 } else if (next.y == current.y - 1) {
-                    maze[current.x][current.y].setUp(true);
-                    maze[next.x][next.y].setDown(true);
+                    maze[current.x][current.y].setUp();
+                    maze[next.x][next.y].setDown();
                 } else if (next.y == current.y + 1) {
-                    maze[current.x][current.y].setDown(true);
-                    maze[next.x][next.y].setUp(true);
+                    maze[current.x][current.y].setDown();
+                    maze[next.x][next.y].setUp();
                 }
             }
         } else {
@@ -105,7 +106,6 @@ public class Maze {
 
     public void generate() {
         Utils.startChrono();
-//        a = 0;
         seed = Math.abs(new Random().nextInt());
         Utils.setRandomSeed(seed);
         for (int i = 0; i < width; i++) {
@@ -113,11 +113,14 @@ public class Maze {
                 maze[i][j].reset();
             }
         }
-        maze[0][0].setUp(true);
-        maze[width - 1][height - 1].setDown(true);
+        maze[0][0].setUp();
+        maze[width - 1][height - 1].setDown();
         path.clear();
-        int i = Utils.getRandomInt(width);
-        int j = Utils.getRandomInt(height);
+        int i, j;
+        do {
+            i = Utils.getRandomInt(width);
+            j = Utils.getRandomInt(height);
+        } while (maze[0][0].isVisited());
         path.push(new Vector2i(i, j));
         maze[i][j].setVisited(true);
         int colorNumber = Utils.getRandomInt(2, 5);

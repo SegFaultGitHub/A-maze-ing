@@ -10,9 +10,8 @@ import org.jsfml.system.Vector2f;
  * Created by SegFault on 29/03/2017.
  */
 public class Cell {
-    private boolean up, down, left, right;
     private boolean visited;
-    private char[] content;
+    private byte content;
     private Color color;
 
     public void setColor(int r, int g, int b) {
@@ -21,51 +20,41 @@ public class Cell {
     }
 
     public boolean isUp() {
-        return up;
+        return (content & 0b1000) != 0;
     }
 
-    public void setUp(boolean up) {
-        this.up = up;
-        content[0] = up ? '1' : '0';
+    public void setUp() {
+        content |= 0b1000;
     }
 
     public boolean isDown() {
-        return down;
+        return (content & 0b0100) != 0;
     }
 
-    public void setDown(boolean down) {
-        this.down = down;
-        content[1] = down ? '1' : '0';
+    public void setDown() {
+        content |= 0b0100;
     }
 
     public boolean isLeft() {
-        return left;
+        return (content & 0b0010) != 0;
     }
 
-    public void setLeft(boolean left) {
-        this.left = left;
-        content[2] = left ? '1' : '0';
-    }
-
-    public void reset() {
-        up = false;
-        down = false;
-        left = false;
-        right = false;
-        visited = false;
-        for (int i = 0; i < 4; i++) {
-            content[i] = '0';
-        }
-        color = Color.BLACK;
+    public void setLeft() {
+        content |= 0b0010;
     }
 
     public boolean isRight() {
-        return right;
+        return (content & 0b0001) != 0;
     }
 
-    public void setRight(boolean right) {
-        this.right = right;
-        content[3] = right ? '1' : '0';
+    public void setRight() {
+        content |= 0b0001;
+    }
+
+    public void reset() {
+        visited = false;
+        content = 0b0000;
+        color = Color.BLACK;
     }
 
     public boolean isVisited() {
@@ -77,89 +66,89 @@ public class Cell {
     }
 
     public Cell() {
-        up = false;
-        down = false;
-        left = false;
-        right = false;
-        visited = false;
-        content = "0000".toCharArray();
-        color = Color.BLACK;
+        reset();
     }
 
     public void draw(RenderTarget target, Sprite sprite, Vector2f pos) {
         sprite.setPosition(pos);
         sprite.setColor(color);
-        String contentStr = "";
-        for (int i = 0; i < 4; i++) {
-            contentStr += content[i];
-        }
-        switch (contentStr) {
-            case "0000":
-                break;
-            case "1100":
+        switch (content) {
+            case 0b0000:
+                return;
+            case 0b1100:
                 sprite.setTexture(Textures.getStraight());
+                sprite.setRotation(0);
+                sprite.setOrigin(0, 0);
                 break;
-            case "0011":
+            case 0b0011:
                 sprite.setTexture(Textures.getStraight());
                 sprite.setRotation(90);
                 sprite.setOrigin(0, Textures.getStraight().getSize().y);
                 break;
-            case "1010":
+            case 0b1010:
                 sprite.setTexture(Textures.getCorner());
                 sprite.setRotation(180);
                 sprite.setOrigin(Textures.getStraight().getSize().x, Textures.getStraight().getSize().y);
                 break;
-            case "0110":
+            case 0b0110:
                 sprite.setTexture(Textures.getCorner());
                 sprite.setRotation(90);
                 sprite.setOrigin(0, Textures.getStraight().getSize().y);
                 break;
-            case "1001":
+            case 0b1001:
                 sprite.setTexture(Textures.getCorner());
                 sprite.setRotation(-90);
                 sprite.setOrigin(Textures.getStraight().getSize().x, 0);
                 break;
-            case "0101":
+            case 0b0101:
                 sprite.setTexture(Textures.getCorner());
+                sprite.setRotation(0);
+                sprite.setOrigin(0, 0);
                 break;
-            case "1000":
+            case 0b1000:
                 sprite.setTexture(Textures.getImpasse());
                 sprite.setRotation(180);
                 sprite.setOrigin(Textures.getStraight().getSize().x, Textures.getStraight().getSize().y);
                 break;
-            case "0100":
+            case 0b0100:
                 sprite.setTexture(Textures.getImpasse());
+                sprite.setRotation(0);
+                sprite.setOrigin(0, 0);
                 break;
-            case "0010":
+            case 0b0010:
                 sprite.setTexture(Textures.getImpasse());
                 sprite.setRotation(90);
                 sprite.setOrigin(0, Textures.getStraight().getSize().y);
                 break;
-            case "0001":
+            case 0b0001:
                 sprite.setTexture(Textures.getImpasse());
                 sprite.setRotation(-90);
                 sprite.setOrigin(Textures.getStraight().getSize().x, 0);
                 break;
-            case "1111":
+            case 0b1111:
                 sprite.setTexture(Textures.getCross());
+                sprite.setRotation(0);
+                sprite.setOrigin(0, 0);
                 break;
-            case "1110":
+            case 0b1110:
                 sprite.setTexture(Textures.getT());
                 sprite.setRotation(90);
                 sprite.setOrigin(0, Textures.getStraight().getSize().y);
                 break;
-            case "1101":
+            case 0b1101:
                 sprite.setTexture(Textures.getT());
                 sprite.setRotation(-90);
                 sprite.setOrigin(Textures.getStraight().getSize().x, 0);
                 break;
-            case "1011":
+            case 0b1011:
                 sprite.setTexture(Textures.getT());
                 sprite.setRotation(180);
                 sprite.setOrigin(Textures.getStraight().getSize().x, Textures.getStraight().getSize().y);
                 break;
-            case "0111":
+            case 0b0111:
                 sprite.setTexture(Textures.getT());
+                sprite.setRotation(0);
+                sprite.setOrigin(0, 0);
                 break;
             default:
                 return;
